@@ -93,30 +93,7 @@ class IsolateProcessor {
     PoolHandle? resource;
     try {
       resource = await _pool.request();
-      await Isolate.run(() {
-        if (maskingOptimizerEnabled ||
-            clippingOptimizerEnabled ||
-            overdrawOptimizerEnabled) {
-          _loadPathOps(libpathops);
-        }
-        if (tessellate) {
-          _loadTessellator(libtessellator);
-        }
-
-        final Uint8List bytes = encodeSvg(
-          xml: File(pair.inputPath).readAsStringSync(),
-          debugName: pair.inputPath,
-          theme: theme,
-          enableMaskingOptimizer: maskingOptimizerEnabled,
-          enableClippingOptimizer: clippingOptimizerEnabled,
-          enableOverdrawOptimizer: overdrawOptimizerEnabled,
-        );
-        File(pair.outputPath).writeAsBytesSync(bytes);
-        if (dumpDebug) {
-          final Uint8List debugBytes = dumpToDebugFormat(bytes);
-          File(pair.outputPath + '.debug').writeAsBytesSync(debugBytes);
-        }
-      });
+      throw StateError('Require dart >= 2.19.0');
       _current++;
       print('Progress: $_current/$_total');
     } finally {
